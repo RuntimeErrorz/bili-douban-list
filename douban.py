@@ -1,13 +1,14 @@
 import requests, time, csv, tqdm
 from win11toast import toast
+
 def main():
     with open('final_list.csv', 'r', newline='', encoding='utf-8-sig') as csv_file:
-        START = len(list(csv.reader(csv_file)))
+        start = len(list(csv.reader(csv_file)))
 
     with open('final_list.txt', 'r', encoding='utf-8') as file_object, open('final_list.csv', 'a', newline='', encoding='utf-8-sig') as csv_file:
         writer = csv.writer(csv_file)
-        print(START)
-        for line in tqdm.tqdm(file_object.readlines()[START:], bar_format='{desc}: {percentage:3.2f}%|{bar}{r_bar}'):
+        print(start)
+        for line in tqdm.tqdm(file_object.readlines()[start:], bar_format='{desc}: {percentage:3.2f}%|{bar}{r_bar}'):
             title = line.split()[1].strip()
             print(title)
             row = [title]
@@ -26,4 +27,4 @@ while True:
     except Exception as e:
         toast(f"Error occurred: {e}. Retrying...", scenario='urgent')
         print(f"Error occurred: {e}. Retrying...") 
-        time.sleep(60)
+        time.sleep(30)
