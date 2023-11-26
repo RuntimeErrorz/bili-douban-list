@@ -5,7 +5,7 @@ def write_rating_douban(source_lines, fd):
     writer = csv.writer(fd)
     for line in tqdm.tqdm(source_lines, bar_format='{desc}: {percentage:3.2f}%|{bar}{r_bar}', ncols=80):
         source_row = line.split(',')
-        title = source_row[0].strip()
+        title, date = source_row[0].strip(), source_row[2]
         if title[0] == '@': # 人工标记短片
             tqdm.tqdm.write(f"skip short: {title}")
             writer.writerow([_.strip() for _ in source_row])
@@ -15,7 +15,9 @@ def write_rating_douban(source_lines, fd):
         while True:
             try: 
                 for movie in requests.get(f'https://api.wmdb.tv/api/v1/movie/search?q={title}').json():
-                    if movie['data'][0]["name"] == title:
+                    dateReleased = None if movie.get("dateReleased") is None else movie.get("dateReleased")[:4] 
+                    if movie['data'][0]["name"] == title \
+                          and (date == '全1话' or movie.get("year") == date[:4] or dateReleased == date[:4]):
                         source_row.append(movie["doubanRating"])
                         source_row.append(f'https://movie.douban.com/subject/{movie["doubanId"]}/')
                 break
