@@ -6,7 +6,15 @@
 
 `python filmlist_bili.py`
 
-由于B站偶会下架电影，以及防止其他突发原因导致的错误，每次运行上述代码会参考当前`source.csv`和`short.csv`全量更新，生成新文件`new_source.csv`和`new_short.csv`。确认无误后，可执行`python clean.py --list`保留最新结果。
+由于B站偶会下架电影，以及防止其他突发原因导致的错误，每次运行上述代码会参考当前`film.csv`和`short.csv`全量更新，生成新文件`new_film.csv`和`new_short.csv`。确认无误后，可执行`python clean.py --list`保留最新结果。
+
+特别的，针对下架的情况，做出更新。
+
+| film | removed
+| --- | --- 
+|  ABC| None|
+| ADF | BC |
+| ABDEG |CF|
 
 ### 2. 更新豆瓣评分
 
